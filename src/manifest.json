@@ -1,0 +1,15 @@
+{
+  "name": "GitHub Comment Suggest",
+  "version": "1.0",
+  "description": "Add comment suggestion to GitHub's comment form.",
+  "manifest_version": 2,
+  "permissions": ["storage", "activeTab", "management"],
+  "content_scripts": [
+    {
+      "run_at": "document_end",
+      "matches": ["https://github.com/*", "https://gist.github.com/*"],
+      "js": ["main.js"]
+    }
+  ],
+  "background": { "scripts": ["background.js"] }
+}
