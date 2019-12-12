@@ -39,7 +39,11 @@ export const CommandSuggestion: React.FC<Props> = ({}) => {
         }}
       >
         {suggests.map(suggest => (
-          <Suggest {...suggest} onClick={handleClickSuggest} />
+          <Suggest
+            key={`suggest-${suggest.name}`}
+            {...suggest}
+            onClick={handleClickSuggest}
+          />
         ))}
       </div>
     )
