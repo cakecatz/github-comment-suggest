@@ -2,6 +2,7 @@ import * as React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { AppState, completeCommand, CommandSuggest } from "./app";
 import { Suggest } from "./suggest";
+import { filter } from "fuzzy";
 
 interface Props {}
 
@@ -13,7 +14,9 @@ export const CommandSuggestion: React.FC<Props> = ({}) => {
     state.left
   ]);
   const suggests = useSelector<AppState, CommandSuggest[]>(state =>
-    state.suggests.filter(suggest => suggest.name.includes(state.input))
+    filter(state.input, state.suggests, { extract: s => s.name }).map(
+      m => m.original
+    )
   );
 
   const handleClickSuggest = React.useCallback(
