@@ -19,10 +19,10 @@ jobs:
       - name: npm install, build
         run: |
           npm ci
-          npm run zip
+          npm run build
         env:
           CI: true
       - uses: actions/upload-artifact@v1
         with:
           name: extension
-          path: app.zip
+          path: dist
