@@ -8,9 +8,6 @@ export interface CommandSuggest {
   description: string;
 }
 
-// TODO: debug
-const suggests: CommandSuggest[] = [];
-
 export interface AppState {
   show: boolean;
   top: number | null;
@@ -26,7 +23,7 @@ const initialState: AppState = {
   top: null,
   left: null,
   input: "",
-  suggests
+  suggests: []
 };
 
 export const app = createSlice({
@@ -47,11 +44,17 @@ export const app = createSlice({
       state.top = null;
       state.left = null;
       state.input = "";
+    },
+    registerSuggests(
+      state,
+      { payload }: PayloadAction<{ suggests: CommandSuggest[] }>
+    ) {
+      state.suggests = payload.suggests;
     }
   }
 });
 
-export const { showSuggestion, hideSuggestion } = app.actions;
+export const { showSuggestion, hideSuggestion, registerSuggests } = app.actions;
 
 export const completeCommand = ({
   command

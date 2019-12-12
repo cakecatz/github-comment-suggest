@@ -11,5 +11,6 @@
       "js": ["main.js"]
     }
   ],
-  "background": { "scripts": ["background.js"] }
+  "background": { "scripts": ["background.js"] },
+  "options_page": "options.html"
 }

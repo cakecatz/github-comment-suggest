@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/cakecatz/github-comment-suggest#readme",
   "devDependencies": {
+    "@types/chrome": "0.0.91",
     "@types/react": "^16.9.16",
     "@types/react-dom": "^16.9.4",
     "@types/react-redux": "^7.1.5",

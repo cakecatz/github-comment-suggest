@@ -5,6 +5,7 @@ module.exports = {
   devtool: "inline-source-map",
   entry: {
     main: "./src/index.tsx",
+    option: "./src/option.ts",
     background: "./src/background.ts"
   },
   output: {
@@ -20,6 +21,9 @@ module.exports = {
     new CopyWebpackPlugin([
       {
         from: "src/manifest.json"
+      },
+      {
+        from: "src/options.html"
       }
     ])
   ]

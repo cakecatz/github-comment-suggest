@@ -3,7 +3,14 @@ import * as ReactDOM from "react-dom";
 import { CommandSuggestion } from "./command-suggestion";
 import { Provider } from "react-redux";
 import { configureStore, EnhancedStore, AnyAction } from "@reduxjs/toolkit";
-import { app, AppState, hideSuggestion, showSuggestion } from "./app";
+import {
+  app,
+  AppState,
+  hideSuggestion,
+  showSuggestion,
+  registerSuggests,
+  CommandSuggest
+} from "./app";
 import { PR_NEW_COMMENT_ID } from "./constants";
 
 const COMMAND_TRIGGER_REGEX = /^\/[a-z]*$/;
@@ -13,7 +20,24 @@ const node = document.createElement("div");
 node.setAttribute("id", nodeId);
 document.body.appendChild(node);
 
+async function getCommandList(): Promise<CommandSuggest[]> {
+  return new Promise(resolve => {
+    chrome.storage.sync.get(
+      {
+        commandList: []
+      },
+      function(items) {
+        resolve(items.commandList as CommandSuggest[]);
+      }
+    );
+  });
+}
+
 function initialize(store: EnhancedStore<AppState, AnyAction>) {
+  getCommandList().then(list => {
+    store.dispatch(registerSuggests({ suggests: list }));
+  });
+
   ReactDOM.render(
     <Provider store={store}>
       <CommandSuggestion />
@@ -33,8 +57,6 @@ if (commentArea) {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     const scrollLeft =
       window.pageXOffset || document.documentElement.scrollLeft;
-
-    console.log(s);
 
     if (COMMAND_TRIGGER_REGEX.test(t.value)) {
       store.dispatch(
