@@ -20,19 +20,17 @@ const Container = styled.button`
 
 interface Props {
   name: string;
-  command: string;
   description: string;
   onClick: (name: string) => void;
 }
 
-export const Suggest: React.FC<Props> = ({
+export const SuggestionListItem: React.FC<Props> = ({
   name,
-  command,
   description,
   onClick
 }) => {
   return (
-    <Container onClick={() => onClick(command)}>
+    <Container onClick={() => onClick(name)}>
       <div style={{ fontWeight: "bold", textAlign: "left" }}>
         <strong>{name}</strong>
       </div>

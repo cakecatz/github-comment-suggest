@@ -2,9 +2,8 @@ import { createSlice, PayloadAction, Action } from "@reduxjs/toolkit";
 import { ThunkAction } from "redux-thunk";
 import { PR_NEW_COMMENT_ID } from "./constants";
 
-export interface CommandSuggest {
+export interface Suggestion {
   name: string;
-  command: string;
   description: string;
 }
 
@@ -13,7 +12,7 @@ export interface AppState {
   top: number | null;
   left: number | null;
   input: string;
-  suggests: CommandSuggest[];
+  suggestions: Suggestion[];
 }
 
 export type AppThunk = ThunkAction<void, AppState, null, Action<string>>;
@@ -23,7 +22,7 @@ const initialState: AppState = {
   top: null,
   left: null,
   input: "",
-  suggests: []
+  suggestions: []
 };
 
 export const app = createSlice({
@@ -45,21 +44,25 @@ export const app = createSlice({
       state.left = null;
       state.input = "";
     },
-    registerSuggests(
+    registerSuggestions(
       state,
-      { payload }: PayloadAction<{ suggests: CommandSuggest[] }>
+      { payload }: PayloadAction<{ suggestions: Suggestion[] }>
     ) {
-      state.suggests = payload.suggests;
+      state.suggestions = payload.suggestions;
     }
   }
 });
 
-export const { showSuggestion, hideSuggestion, registerSuggests } = app.actions;
+export const {
+  showSuggestion,
+  hideSuggestion,
+  registerSuggestions
+} = app.actions;
 
-export const completeCommand = ({
-  command
+export const insertSuggestion = ({
+  suggestion
 }: {
-  command: string;
+  suggestion: string;
 }): AppThunk => async dispatch => {
   const target = <HTMLTextAreaElement>(
     document.getElementById(PR_NEW_COMMENT_ID)
@@ -69,7 +72,7 @@ export const completeCommand = ({
     throw new Error("not found target");
   }
 
-  target.value = `${command} `;
+  target.value = `${suggestion} `;
   target.focus();
 
   dispatch(hideSuggestion());

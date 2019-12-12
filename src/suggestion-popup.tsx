@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { AppState, completeCommand, CommandSuggest } from "./app";
-import { Suggest } from "./suggest";
+import { AppState, insertSuggestion, Suggestion } from "./app";
+import { SuggestionListItem } from "./suggestion-list-item";
 import styled from "styled-components";
 import { filter } from "fuzzy";
 
@@ -15,22 +15,22 @@ const Container = styled.div`
   border-radius: 3px;
 `;
 
-export const CommandSuggestion: React.FC = ({}) => {
+export const SuggestionPopup: React.FC = ({}) => {
   const dispatch = useDispatch();
   const show = useSelector<AppState, boolean>(state => state.show);
   const [top, left] = useSelector<AppState, [number, number]>(state => [
     state.top,
     state.left
   ]);
-  const suggests = useSelector<AppState, CommandSuggest[]>(state =>
-    filter(state.input, state.suggests, { extract: s => s.name }).map(
+  const suggestions = useSelector<AppState, Suggestion[]>(state =>
+    filter(state.input, state.suggestions, { extract: s => s.name }).map(
       m => m.original
     )
   );
 
-  const handleClickSuggest = React.useCallback(
-    (command: string) => {
-      dispatch(completeCommand({ command }));
+  const handleClickSuggestion = React.useCallback(
+    (suggestion: string) => {
+      dispatch(insertSuggestion({ suggestion }));
     },
     [dispatch]
   );
@@ -39,7 +39,7 @@ export const CommandSuggestion: React.FC = ({}) => {
     return null;
   }
 
-  if (suggests.length === 0) {
+  if (suggestions.length === 0) {
     return null;
   }
 
@@ -50,11 +50,11 @@ export const CommandSuggestion: React.FC = ({}) => {
         left
       }}
     >
-      {suggests.map(suggest => (
-        <Suggest
-          key={`suggest-${suggest.name}`}
-          {...suggest}
-          onClick={handleClickSuggest}
+      {suggestions.map(suggestion => (
+        <SuggestionListItem
+          key={`suggestion-${suggestion.name}`}
+          {...suggestion}
+          onClick={handleClickSuggestion}
         />
       ))}
     </Container>

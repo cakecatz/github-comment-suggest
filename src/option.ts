@@ -1,5 +1,5 @@
 function getCommandListTextArea(): HTMLTextAreaElement {
-  return <HTMLTextAreaElement>document.getElementById("command-list");
+  return <HTMLTextAreaElement>document.getElementById("suggest-list");
 }
 
 function save_options() {

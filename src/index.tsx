@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { CommandSuggestion } from "./command-suggestion";
+import { SuggestionPopup } from "./suggestion-popup";
 import { Provider } from "react-redux";
 import { configureStore, EnhancedStore, AnyAction } from "@reduxjs/toolkit";
 import {
@@ -8,8 +8,8 @@ import {
   AppState,
   hideSuggestion,
   showSuggestion,
-  registerSuggests,
-  CommandSuggest
+  registerSuggestions,
+  Suggestion
 } from "./app";
 import { PR_NEW_COMMENT_ID } from "./constants";
 
@@ -20,14 +20,14 @@ const node = document.createElement("div");
 node.setAttribute("id", nodeId);
 document.body.appendChild(node);
 
-async function getCommandList(): Promise<CommandSuggest[]> {
+async function getCommandList(): Promise<Suggestion[]> {
   return new Promise(resolve => {
     chrome.storage.sync.get(
       {
         commandList: []
       },
       function(items) {
-        resolve(items.commandList as CommandSuggest[]);
+        resolve(items.commandList as Suggestion[]);
       }
     );
   });
@@ -35,12 +35,12 @@ async function getCommandList(): Promise<CommandSuggest[]> {
 
 function initialize(store: EnhancedStore<AppState, AnyAction>) {
   getCommandList().then(list => {
-    store.dispatch(registerSuggests({ suggests: list }));
+    store.dispatch(registerSuggestions({ suggestions: list }));
   });
 
   ReactDOM.render(
     <Provider store={store}>
-      <CommandSuggestion />
+      <SuggestionPopup />
     </Provider>,
     document.getElementById(nodeId)
   );
