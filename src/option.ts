@@ -1,33 +1,27 @@
+import { optionsStorage } from "./options-storage";
+
 function getCommandListTextArea(): HTMLTextAreaElement {
   return <HTMLTextAreaElement>document.getElementById("suggest-list");
 }
 
-function save_options() {
+async function saveOptions() {
   const t = getCommandListTextArea();
-  chrome.storage.sync.set(
-    {
-      commandList: JSON.parse(t.value)
-    },
-    function() {
-      var status = document.getElementById("status");
-      status.textContent = "Options saved.";
-      setTimeout(function() {
-        status.textContent = "";
-      }, 750);
-    }
-  );
+  await optionsStorage.set({
+    commandList: t.value
+  });
+
+  const status = document.getElementById("status");
+  status.textContent = "Options saved.";
+  setTimeout(function() {
+    status.textContent = "";
+  }, 750);
 }
 
-function restore_options() {
-  chrome.storage.sync.get(
-    {
-      commandList: []
-    },
-    function(items) {
-      const t = getCommandListTextArea();
-      t.value = JSON.stringify(items.commandList);
-    }
-  );
+async function restoreOptions() {
+  const options = await optionsStorage.getAll();
+  const t = getCommandListTextArea();
+  t.value = options.commandList;
 }
-document.addEventListener("DOMContentLoaded", restore_options);
-document.getElementById("save").addEventListener("click", save_options);
+
+document.addEventListener("DOMContentLoaded", restoreOptions);
+document.getElementById("save").addEventListener("click", saveOptions);

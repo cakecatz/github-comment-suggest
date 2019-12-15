@@ -3,6 +3,7 @@ import * as ReactDOM from "react-dom";
 import { SuggestionPopup } from "./suggestion-popup";
 import { Provider } from "react-redux";
 import { configureStore, EnhancedStore, AnyAction } from "@reduxjs/toolkit";
+import { optionsStorage } from "./options-storage";
 import {
   app,
   AppState,
@@ -20,23 +21,14 @@ const node = document.createElement("div");
 node.setAttribute("id", nodeId);
 document.body.appendChild(node);
 
-async function getCommandList(): Promise<Suggestion[]> {
-  return new Promise(resolve => {
-    chrome.storage.sync.get(
-      {
-        commandList: []
-      },
-      function(items) {
-        resolve(items.commandList as Suggestion[]);
-      }
-    );
-  });
+async function getSuggestions(): Promise<Suggestion[]> {
+  const options = await optionsStorage.getAll();
+  return JSON.parse(options.commandList);
 }
 
-function initialize(store: EnhancedStore<AppState, AnyAction>) {
-  getCommandList().then(list => {
-    store.dispatch(registerSuggestions({ suggestions: list }));
-  });
+async function initialize(store: EnhancedStore<AppState, AnyAction>) {
+  const suggestions = await getSuggestions();
+  store.dispatch(registerSuggestions({ suggestions }));
 
   ReactDOM.render(
     <Provider store={store}>

@@ -11,6 +11,16 @@
       "js": ["main.js"]
     }
   ],
-  "background": { "scripts": ["background.js"] },
-  "options_page": "options.html"
+  "background": {
+    "scripts": ["browser-polyfill.js", "hot-reload.js"]
+  },
+  "options_ui": {
+    "open_in_tab": true,
+    "page": "options.html"
+  },
+  "applications": {
+    "gecko": {
+      "id": "github-comment-suggest@cakecatz"
+    }
+  }
 }

@@ -5,8 +5,7 @@ module.exports = {
   devtool: "inline-source-map",
   entry: {
     main: "./src/index.tsx",
-    option: "./src/option.ts",
-    background: "./src/background.ts"
+    option: "./src/option.ts"
   },
   output: {
     filename: "[name].js"
@@ -21,6 +20,10 @@ module.exports = {
     new CopyWebpackPlugin([
       {
         from: "src/manifest.json"
+      },
+      { from: "node_modules/crx-hotreload/hot-reload.js" },
+      {
+        from: "node_modules/webextension-polyfill/dist/browser-polyfill.js"
       },
       {
         from: "src/options.html"
