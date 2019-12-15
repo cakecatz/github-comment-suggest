@@ -20,7 +20,7 @@
   },
   "applications": {
     "gecko": {
-      "id": "github-comment-suggest@cakecatz"
+      "id": "github-comment-suggest-addon@cakecatz"
     }
   }
 }
