@@ -1,6 +1,6 @@
 {
   "name": "GitHub Comment Suggest",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Add comment suggestion to GitHub's comment form.",
   "manifest_version": 2,
   "permissions": ["storage", "activeTab", "management"],
