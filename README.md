@@ -18,3 +18,16 @@ _Example_
   }
 ]
 ```
+
+## Build
+
+```sh
+npm install
+npm run build
+```
+
+## Packaging
+
+```sh
+npm run pack
+```
