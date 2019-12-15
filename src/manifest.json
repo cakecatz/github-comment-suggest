@@ -8,7 +8,7 @@
     {
       "run_at": "document_end",
       "matches": ["https://github.com/*", "https://gist.github.com/*"],
-      "js": ["main.js"]
+      "js": ["browser-polyfill.js", "main.js"]
     }
   ],
   "background": {
