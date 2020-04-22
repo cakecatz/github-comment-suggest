@@ -2,5 +2,17 @@
   {
     "name": "/command",
     "description": "This command is awesome."
+  },
+  {
+    "name": "/hello",
+    "description": "This command is awesome."
+  },
+  {
+    "name": "/foo",
+    "description": "This command is awesome."
+  },
+  {
+    "name": "/bar",
+    "description": "This command is awesome."
   }
 ]
