@@ -6,6 +6,7 @@
   "scripts": {
     "build": "webpack",
     "watch": "webpack --watch",
+    "firefox:watch": "web-ext run --firefox='/Applications/Firefox Developer Edition.app/Contents/MacOS/firefox-bin' -s dist",
     "prepack": "npm run build",
     "pack": "web-ext build -s dist",
     "test": "echo \"Error: no test specified\" && exit 1"
